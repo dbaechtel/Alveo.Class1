@@ -1,0 +1,35 @@
+        internal class STDobj       // C# Class to calculate Standard Deviation of a collection of data values
+        {
+            internal int Length;    // Size of collection
+            Queue<double> dataQ;    // Queue of data values
+            Queue<double> sqrDataQ; // Queus of data values squared
+            double variance;        // variance of data values
+            double StdDev;          // standard deviation of data values
+
+            STDobj()                // default parameterless constructor for STDobj class
+            {
+                Length = 0;
+                dataQ = new Queue<double>();
+                sqrDataQ = new Queue<double>();
+                variance = 0;
+                StdDev = 0;
+            }
+
+            STDobj(int length) : this() // class constructor with period input, run default constructor first
+            {
+                Length = length;        // store length of data Queue
+            }
+
+            internal double Calc(double data)   // calculate variance and StdDev of data in Queues
+            {
+                dataQ.Enqueue(data);            // put new data in queue
+                while (dataQ.Count > Length)    // requlate length of queue
+                    dataQ.Dequeue();
+                sqrDataQ.Enqueue(data * data);  // put data^2 in queue
+                while (sqrDataQ.Count > Length) // regulate length of queue
+                    sqrDataQ.Dequeue();
+                variance = sqrDataQ.Sum() - dataQ.Sum();            // calculate variance
+                StdDev = (variance > 0) ? Math.Sqrt(variance) : 0;  // calculate StdDev
+                return StdDev;
+            }
+        }
